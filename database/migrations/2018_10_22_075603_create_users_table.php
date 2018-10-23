@@ -15,12 +15,12 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps(); 
+            $table->string('username',10)->comment('用户名');
+            $table->unsignedBigInteger('mobile')->comment('手机号码');
+            $table->char('password',60)->comment('密码');
+            $table->engine='innodb';
+            $table->comment='用户表';
         });
     }
 
