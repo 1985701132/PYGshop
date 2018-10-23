@@ -23,6 +23,9 @@ Route::get('/sendmobilecode', 'RegisterController@sendmobilecode')->name('ajax-s
 Route::get('/login','LoginController@login')->name('login');
 Route::post('/dologin','LoginController@dologin')->name('dologin');
 
+Route::get('/htindex','IndexController@index')->name('htindex');
+
+
 
 
 
