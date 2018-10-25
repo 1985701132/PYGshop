@@ -39,8 +39,10 @@ class AdminController extends Controller
     }
     public function delete(Request $req)
     {
+        // dd($req);
         $id = $req->id;
         DB::delete('delete from admins where id=?',[$id]);
+
         return redirect()->route('administrator');
     }
     public function insert(Request $req)

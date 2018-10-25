@@ -13,4 +13,12 @@ class IndexController extends Controller
         // dd($users);
         return view('index.index');
     }
+    public function htindex()
+    {
+        return view('htindex.index');
+    }
+    public function home()
+    {
+        return view('htindex.home');
+    }
 }
