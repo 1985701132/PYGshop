@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegistRequest;
-use App\Models\Users;
+use App\Models\User;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
 use Illuminate\Support\Facades\Cache;
@@ -55,7 +55,7 @@ class RegisterController extends Controller
     public function doregister(Request $req)
     {
         $password = Hash::make($req->password);
-        $user = new Users;
+        $user = new User;
         // if($req->password !=$req->repassword)
         // {
         //     return back()->withInput()->withErrors(['repassword'=>'两次输入密码不一致']);

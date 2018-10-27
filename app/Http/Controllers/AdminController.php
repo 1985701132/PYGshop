@@ -18,18 +18,18 @@ class AdminController extends Controller
         {
             $admins = Admin::select('*')
                     ->where('username','like',"%{$req->username}%")
-                    ->paginate(2);
+                    ->paginate(5);
                     //  ->toSql();
         }
         else if($req->time)
         {
             $admins = Admin::select('*')
                     ->where('created_at','like',"%{$req->time}%")
-                    ->paginate(2);
+                    ->paginate(5);
         }
         else
         {
-            $admins = Admin::paginate(2);
+            $admins = Admin::paginate(5);
         }
 
         return view('admin.administrator',[

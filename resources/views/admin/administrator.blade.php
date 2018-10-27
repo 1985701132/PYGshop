@@ -353,10 +353,10 @@ function member_del(obj,id){
 			url:"{{ route('admin.delete') }}",
 			data:{id:id},
 			success:function(data){
-				$(obj).parents("tr").remove();				
+				$(obj).parents("tr").remove();	
+				layer.msg('已删除!',{icon:1,time:1000});
 			}
 		})
-		layer.msg('已删除!',{icon:1,time:1000});
 	});
 }
 /*添加管理员*/
