@@ -15,9 +15,13 @@ class LoginController extends Controller
     {
         // $user = User::where('mobile',$req->mobile)->first();
         $user = User::where('username',$req->username)->first();
-        // dd($req->username,$req->password);
+        // dd($user->is_use);
         if($user)
         {
+            if($user->is_use=='no')
+            {
+                return back()->withInput()->withErrors('该用户已被停用');
+            }
             if(Hash::check($req->password,$user->password))
             {
                 session([

@@ -14,6 +14,7 @@ class AdminController extends Controller
     {   
         // dd($req->username);
         // $admins = DB::table('admins')->get();
+        // dd($admins);
         if($req->username)
         {
             $admins = Admin::select('*')

@@ -41,6 +41,11 @@
 						<div id="profile" class="tab-pane  active">
 							<form class="sui-form" action="{{ route('dologin') }}" method="POST">
 							{{ csrf_field() }}
+							@if ($errors->any())
+								@foreach($errors->all() as $e)
+									{{$e}}
+								@endforeach
+							@endif
 
 								<div class="input-prepend"><span class="add-on loginname"></span>
 									<input id="prependedInput" name="username" type="text" placeholder="用户名" class="span2 input-xfat">

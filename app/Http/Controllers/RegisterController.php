@@ -54,13 +54,23 @@ class RegisterController extends Controller
 
     public function doregister(Request $req)
     {
+        $users = DB::table('users')->get();
+        $usernames = [];
+        foreach($users as $v)
+        {
+            // $usernames[] = $v->username;
+            if($req->username==$v->username)
+            {
+                return back()->withInput()->withErrors(['username'=>'该用户已存在']);
+            }
+        }
         $password = Hash::make($req->password);
         $user = new User;
-        // if($req->password !=$req->repassword)
-        // {
-        //     return back()->withInput()->withErrors(['repassword'=>'两次输入密码不一致']);
 
-        // }
+        if($req->password !=$req->repassword)
+        {
+            return back()->withInput()->withErrors(['repassword'=>'两次输入密码不一致']);
+        }
 
         // 拼出缓存的名字
         $name = 'code-'.$req->mobile;
