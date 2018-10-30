@@ -55,10 +55,8 @@ class RegisterController extends Controller
     public function doregister(Request $req)
     {
         $users = DB::table('users')->get();
-        $usernames = [];
         foreach($users as $v)
         {
-            // $usernames[] = $v->username;
             if($req->username==$v->username)
             {
                 return back()->withInput()->withErrors(['username'=>'该用户已存在']);

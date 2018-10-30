@@ -46,4 +46,13 @@ Route::get('/user/delete','UserController@delete')->name('user.delete');
 Route::get('/user/no','UserController@no')->name('user.no');
 Route::get('/user/yes','UserController@yes')->name('user.yes');
 
+//商品模块
+Route::get('/goods','GoodsController@goods')->name('products_list');
+Route::get('/goods/insert','GoodsController@insert')->name('products.insert');
+Route::get('/category','CategoryController@category')->name('category');
+Route::get('/category_add','CategoryController@category_add')->name('category_add');
+Route::post('/category/insert','CategoryController@insert')->name('category.insert');
+Route::get('/category_edit/{id}','CategoryController@category_edit')->name('category_edit');
+Route::post('/category/edit/{id}','CategoryController@edit')->name('category.edit');
+Route::get('/category/delete','CategoryController@delete')->name('category.delete');
 

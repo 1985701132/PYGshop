@@ -366,8 +366,7 @@ $('#administrator_add').on('click', function(){
 	title:'添加管理员',
 	area: ['700px',''],
 	shadeClose: false,
-	content: $('#add_administrator_style'),
-	
+	content: $('#add_administrator_style'),	
 	});
 })
 	//表单验证提交

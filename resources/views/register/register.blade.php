@@ -64,7 +64,7 @@
 					<div class="control-group">
 						<label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						<div class="controls">
-							<input name="m1" type="checkbox" value="2" checked="" name="protocol"><span>同意协议并注册《品优购用户协议》</span>
+							<input type="checkbox" value="2" checked="" name="protocol"><span>同意协议并注册《品优购用户协议》</span>
 						</div>
 					</div>
 					<div class="control-group">
