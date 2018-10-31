@@ -46,9 +46,11 @@ Route::get('/user/delete','UserController@delete')->name('user.delete');
 Route::get('/user/no','UserController@no')->name('user.no');
 Route::get('/user/yes','UserController@yes')->name('user.yes');
 
-//商品模块
+/*** 商品模块 ***/
 Route::get('/goods','GoodsController@goods')->name('products_list');
 Route::get('/goods/insert','GoodsController@insert')->name('products.insert');
+
+//商品模块(分类)
 Route::get('/category','CategoryController@category')->name('category');
 Route::get('/category_add','CategoryController@category_add')->name('category_add');
 Route::post('/category/insert','CategoryController@insert')->name('category.insert');
@@ -56,3 +58,8 @@ Route::get('/category_edit/{id}','CategoryController@category_edit')->name('cate
 Route::post('/category/edit/{id}','CategoryController@edit')->name('category.edit');
 Route::get('/category/delete','CategoryController@delete')->name('category.delete');
 
+//商品模块(品牌)
+Route::get('/brand','BrandController@brand')->name('brand');
+Route::get('/brand_add','BrandController@brand_add')->name('brand_add');
+Route::post('/brand/insert','BrandController@insert')->name('brand.insert');
+Route::get('/brand/delete','BrandController@delete')->name('brand.delete');
