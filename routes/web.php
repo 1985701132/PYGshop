@@ -48,7 +48,14 @@ Route::get('/user/yes','UserController@yes')->name('user.yes');
 
 /*** 商品模块 ***/
 Route::get('/goods','GoodsController@goods')->name('products_list');
-Route::get('/goods/insert','GoodsController@insert')->name('products.insert');
+Route::get('/goods/insert','GoodsController@goods_add')->name('products.insert');
+Route::post('/goods/insert','GoodsController@insert')->name('goods.insert');
+Route::get('/goods/ajax_getParent','GoodsController@ajax_getParent')->name('ajax_getParent');
+Route::get('/goods/delete','GoodsController@delete')->name('goods.delete');
+Route::get('/goods/no','GoodsController@no')->name('goods.no');
+Route::get('/goods/yes','GoodsController@yes')->name('goods.yes');
+Route::get('/goods_edit/{id}','GoodsController@goods_edit')->name('goods_edit');
+Route::post('/goods/edit/{id}','GoodsController@edit')->name('goods.edit');
 
 //商品模块(分类)
 Route::get('/category','CategoryController@category')->name('category');
@@ -63,3 +70,4 @@ Route::get('/brand','BrandController@brand')->name('brand');
 Route::get('/brand_add','BrandController@brand_add')->name('brand_add');
 Route::post('/brand/insert','BrandController@insert')->name('brand.insert');
 Route::get('/brand/delete','BrandController@delete')->name('brand.delete');
+

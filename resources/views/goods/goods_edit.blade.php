@@ -45,12 +45,14 @@
   </div>
    <div class="page_right_style">
    <div class="type_title">添加商品</div>
-   <form action="{{ route('goods.insert') }}" method="post" class="form form-horizontal" enctype="multipart/form-data" id="form-article-add">
+   <form action="{{ route('goods.edit',['id'=>$goods->id]) }}" method="post" class="form form-horizontal" enctype="multipart/form-data" id="form-article-add">
     {{ csrf_field() }}
 
 		<div class=" clearfix cl">
          <label class="form-label col-2">商品名称：</label>
-	     <div class="formControls col-10"><input type="text" class="input-text" value="" placeholder="" id="" name="goods_name"></div>
+         <div class="formControls col-10">
+         <input type="text" class="input-text" value="{{ $goods->goods_name }}" placeholder="" id="" name="goods_name">
+        </div>
         </div>
         
         <div class=" clearfix cl">
@@ -61,40 +63,36 @@
 		<div class="clearfix cl">
 			<label class="form-label col-2">内容摘要：</label>
 			<div class="formControls col-10">
-				<textarea name="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)"></textarea>
+            <textarea name="description" cols="" rows="" class="textarea"  placeholder="{{ $goods->description }}" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
         </div>
 
         <div class=" clearfix cl">
-                <label class="form-label col-2">商品分类：</label>
-                <select name="cat1_id" id="catid" class="required">
-                        <option value="">请选择</option>
-                        @foreach ($category as $v)
-                <option value="{{ $v->id }}">
-                            {{ $v->cat_name }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <select name="cat2_id" id="catid2" class="required">
-                        <option value="catid2">请选择</option>
-                    </select>
-                    <select name="cat3_id" id="catid3" class="required">
-                        <option value="catid3">请选择</option>
-                    </select>
+            <label class="form-label col-2">商品分类：</label>
+            <select name="cat1_id" id="catid" class="required">
+                <option value="">请选择</option>
+                @foreach($category as $v)
+            <option @if($v->id == $goods->cat1_id) selected @endif  value="{{ $v->id }}">{{ $v->cat_name }}</option>
+                @endforeach
+            </select>
+            <select name="cat2_id" id="catid2" class="required">
+                <option value="catid2">请选择</option>
+            </select>
+                <select name="cat3_id" id="catid3" class="required">
+                    <option value="catid3">请选择</option>
+                </select>
             </div>
 
             <div class=" clearfix cl">
                 <label class="form-label col-2">商品品牌：</label>
-                    <select name="brand_id" id="" class="required">
+                <select name="brand_id" id="" class="required">
                     <option value="">请选择</option>
                     @foreach($brand as $v)
-                    <option value="{{ $v->id }}">{{ $v->brand_name }}</option>
+                <option @if($v->id == $goods->brand_id) selected @endif value="{{ $v->id }}">{{ $v->brand_name }}</option>
                     @endforeach
-                    </select>
+                </select>
             </div>
-        
-        
         
 		<div class="clearfix cl">
 			<div class="Button_operation">
@@ -922,6 +920,7 @@ $(".preview").change(function(){
     $(this).before("<div class='img_preview'><img src='"+str+"' width='120' height='120'></div>");
 });
 
+
 //商品分类选项
 $("#catid").change(function () {
         var id = $(this).val()
@@ -934,7 +933,14 @@ $("#catid").change(function () {
                 success: function (data) {
                     var str = ''
                     for (var i = 0; i < data.length; i++) {
-                        str += "<option value='" + data[i]['id'] + "'>" + data[i]['cat_name'] + "</option>"
+                        if("{{$goods->cat2_id}}"==data[i]['id'])
+                        {
+                            str += "<option selected  value='" + data[i]['id'] + "'>" + data[i]['cat_name'] + "</option>"
+                        }
+                        else
+                        {
+                            str += "<option  value='" + data[i]['id'] + "'>" + data[i]['cat_name'] + "</option>"
+                        }
                     }
                     $("#catid2").html(str)
                     $("#catid2").trigger('change')
@@ -960,6 +966,7 @@ $("#catid").change(function () {
             })
         }
     });
+    $("#catid").trigger('change')
 </script>
 </body>
 </html>

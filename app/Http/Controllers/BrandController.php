@@ -35,23 +35,20 @@ class BrandController extends Controller
         $img->resize(120,60);        
         $img->save(public_path('uploads/'.$oriImg));
 
-        $user = new Brand;
-        $user->brand_name = $req->brand_name;
-        $user->logo = $oriImg;
-        $user->region = $req->region;
-        $user->save();
+        $brand = new Brand;
+        $brand->brand_name = $req->brand_name;
+        $brand->logo = $oriImg;
+        $brand->region = $req->region;
+        $brand->save();
         return redirect()->route('brand');
     }
     public function delete(Request $req)
     {
         $id = $req->id;
-        DB::delete('delete from brands where id=?',[$id]);
         $path = Brand::select('logo')
         ->where('id',$id)
         ->first();
-
         unlink( public_path().'/uploads/'.$path->logo);
-        return redirect()->route('brand');
-
+        DB::delete('delete from brands where id=?',[$id]);
     }
 }
