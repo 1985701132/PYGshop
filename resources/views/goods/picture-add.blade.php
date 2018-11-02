@@ -93,6 +93,7 @@
                     @endforeach
                     </select>
             </div>
+
             <div class=" clearfix cl">
                 <h4>商品属性 <input class="btn btn-secondary btn-warning" id="btn-attr" type="button" value="添加一个属性"></h4>
                 <div id="attr-container">
@@ -118,6 +119,7 @@
                     </table>
                 </div>
             </div>
+
             <div class=" clearfix cl">
                 <h4>SKU <input id="btn-sku" class="btn btn-secondary btn-warning" type="button" value="添加一个sku"></h4>
                 <div id="sku-container">
@@ -149,8 +151,6 @@
                     </table>
                 </div>
             </div>
-        
-        
         
 		<div class="clearfix cl">
 			<div class="Button_operation">
@@ -1017,6 +1017,7 @@ $("#catid").change(function () {
         }
     });
 
+//添加属性
     var attrStr = `<hr><table width="100%">
                         <tr>
                             <td class="form-label col-2">属性名称:</td>
@@ -1053,6 +1054,7 @@ $("#catid").change(function () {
         
     }
 
+//添加SKU
     var skuStr = `<hr><table width="100%">
                         <tr>
                             <td class="form-label col-2">SKU名称:</td>

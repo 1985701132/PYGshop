@@ -9,6 +9,7 @@ use Image;
 use Storage;
 use App\Models\Category;
 use App\Models\Brand;
+
 class GoodsController extends Controller
 {
     public function goods()
@@ -76,7 +77,6 @@ class GoodsController extends Controller
         }
 
          //添加商品SKU
-         $id = DB::getPdo()->lastInsertId();
          if($req->sku_name && $req->stock && $req->price){
              foreach($req->sku_name as $k=>$v){
                  $req->stock[$k];
@@ -109,6 +109,10 @@ class GoodsController extends Controller
     }
     public function goods_edit(Request $req,$id)
     {
+        $attr = DB::select('select attr_name , attr_value from goods_attribute where goods_id = ?',[$id]);
+
+        $sku = DB::select('select * from goods_sku where goods_id = ?',[$id]);
+         
         $goods = Goods::select('*')
                         ->where('id',$id)
                         ->first();
@@ -121,26 +125,38 @@ class GoodsController extends Controller
             'goods'=>$goods,
             'category'=>$category,
             'brand'=>$brand,
+            'attr'=>$attr,
+            'sku'=>$sku,
         ]);
     }
     public function edit(Request $req,$id)
     {
-        $path = Goods::select('logo')
-        ->where('id',$id)
-        ->first();
-        unlink( public_path().'/uploads/'.$path->logo);
+        if($req->logo){
+            $path = Goods::select('logo')
+                        ->where('id',$id)
+                        ->first();
+            unlink( public_path().'/uploads/'.$path->logo);
 
-        $oldimage = $req->logo->path();  
-        $date = date('Ymd');
-        $path = public_path().'/uploads/goods_logo/'.$date;
-        if(!is_dir($path))
-        {
-            mkdir($path,true);
+            $oldimage = $req->logo->path();  
+            $date = date('Ymd');
+            $path = public_path().'/uploads/goods_logo/'.$date;
+            if(!is_dir($path))
+            {
+                mkdir($path,true);
+            }
+            $oriImg = $req->logo->store('goods_logo/'.$date);
+            $img = Image::make($oldimage);
+            $img->resize(130,130);        
+            $img->save(public_path('uploads/'.$oriImg));
         }
-        $oriImg = $req->logo->store('goods_logo/'.$date);
-        $img = Image::make($oldimage);
-        $img->resize(130,130);        
-        $img->save(public_path('uploads/'.$oriImg));
+        else
+        {
+            $path = Goods::select('logo')
+                        ->where('id',$id)
+                        ->first();
+            $oriImg = $path->logo;
+        }
+        
 
         $goods_name =  $req->goods_name;
         $description = $req->description;
@@ -154,6 +170,23 @@ class GoodsController extends Controller
                                 [$goods_name,$description,$cat1_id,$cat2_id,$cat3_id,$brand_id,$oriImg,$id]
                         );
 
+        DB::delete('delete from goods_attribute where goods_id=?',[$id]);
+        DB::delete('delete from goods_sku where goods_id=?',[$id]);
+
+        if($req->attr_name && $req->attr_value){
+            foreach($req->attr_name as $k=>$v){
+                $req->attr_value[$k];
+                DB::insert('insert into goods_attribute (attr_name,attr_value,goods_id) values (?,?,?)',[$v,$req->attr_value[$k],$id]);
+            }
+        }
+
+         if($req->sku_name && $req->stock && $req->price){
+             foreach($req->sku_name as $k=>$v){
+                 $req->stock[$k];
+                 $req->price[$k];
+                 DB::insert('insert into goods_sku (sku_name,stock,price,goods_id) values (?,?,?,?)',[$v, $req->stock[$k],$req->price[$k],$id]);
+             }
+         }
         return redirect()->route('products_list');
     }
 
