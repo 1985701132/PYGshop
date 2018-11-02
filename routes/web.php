@@ -28,12 +28,19 @@ Route::post('/login','LoginController@dologin')->name('dologin');
 Route::get('/htindex','IndexController@htindex')->name('htindex');
 Route::get('/home','IndexController@home')->name('home');
 
+/****RBAC ******/
+
 //管理员模块
 Route::get('/admin','AdminController@admin')->name('administrator');
 Route::post('/admin/insert','AdminController@insert')->name('admin.insert');
 Route::post('/admin/edit','AdminController@edit')->name('admin.edit');
 Route::get('/admin/delete','AdminController@delete')->name('admin.delete');
 
+//角色模块
+Route::get('/role','RoleController@role')->name('role');
+Route::get('/role_add','RoleController@role_add')->name('role_add');
+Route::post('/role/insert','RoleController@insert')->name('role.insert');
+Route::get('/role/delete','RoleController@delete')->name('role.delete');
 //后台登陆
 Route::get('/htlogin','HtLoginController@login')->name('htlogin');
 Route::post('/htlogin','HtLoginController@dologin')->name('htdologin');

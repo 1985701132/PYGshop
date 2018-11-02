@@ -78,7 +78,6 @@
 				<th width="250px">登录名</th>
 				<th width="100px">手机</th>
 				<th width="100px">邮箱</th>
-                <th width="100px">角色</th>				
 				<th width="180px">加入时间</th>
 				<th width="70px">状态</th>                
 				<th width="200px">操作</th>
@@ -92,7 +91,6 @@
       <td>{{$v->username}}</td>
       <td>{{$v->mobile}}</td>
       <td>{{$v->email}}</td>
-      <td>超级管理员</td>
       <td>{{$v->created_at}}</td>
       <td class="td-status"><span class="label label-success radius">已启用</span></td>
       <td class="td-manage">
@@ -158,25 +156,6 @@
 			</div>
 			<div class="col-4"> <span class="Validform_checktip"></span></div>
 		</div>
-		<div class="form-group">
-			<label class="form-label">角色：</label>
-			<div class="formControls "> <span class="select-box" style="width:150px;">
-				<select class="select" name="admin-role" size="1">
-					<option value="0">超级管理员</option>
-					<option value="1">管理员</option>
-					<option value="2">栏目主辑</option>
-					<option value="3">栏目编辑</option>
-				</select>
-				</span> </div>
-		</div>
-		<div class="form-group">
-			<label class="form-label">备注：</label>
-			<div class="formControls">
-				<textarea name="" cols="" rows="" class="textarea" placeholder="说点什么...100个字符以内" dragonfly="true" onkeyup="checkLength(this);"></textarea>
-				<span class="wordage">剩余字数：<span id="sy" style="color:Red;">100</span>字</span>
-			</div>
-			<div class="col-4"> </div>
-		</div>
 		<div> 
         <input class="btn btn-primary radius" type="submit" id="Add_Administrator" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 	</form>
@@ -230,25 +209,6 @@
 				<input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" nullmsg="请输入邮箱！">
 			</div>
 			<div class="col-4"> <span class="Validform_checktip"></span></div>
-		</div>
-		<div class="form-group">
-			<label class="form-label">角色：</label>
-			<div class="formControls "> <span class="select-box" style="width:150px;">
-				<select class="select" name="admin-role" size="1">
-					<option value="0">超级管理员</option>
-					<option value="1">管理员</option>
-					<option value="2">栏目主辑</option>
-					<option value="3">栏目编辑</option>
-				</select>
-				</span> </div>
-		</div>
-		<div class="form-group">
-			<label class="form-label">备注：</label>
-			<div class="formControls">
-				<textarea name="" cols="" rows="" class="textarea" placeholder="说点什么...100个字符以内" dragonfly="true" onkeyup="checkLength(this);"></textarea>
-				<span class="wordage">剩余字数：<span id="sy" style="color:Red;">100</span>字</span>
-			</div>
-			<div class="col-4"> </div>
 		</div>
 		<div> 
         <input class="btn btn-primary radius" type="submit" id="Add_Administrator" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
