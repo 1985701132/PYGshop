@@ -42,18 +42,20 @@ class GoodsController extends Controller
     }
     public function insert(Request $req)
     {
-        $oldimage = $req->logo->path();  
-        $date = date('Ymd');
-        $path = public_path().'/uploads/goods_logo/'.$date;
-        if(!is_dir($path))
-        {
-            mkdir($path,true);
+        if($req->logo){
+            $oldimage = $req->logo->path();  
+            $date = date('Ymd');
+            $path = public_path().'/uploads/goods_logo/'.$date;
+            if(!is_dir($path))
+            {
+                mkdir($path,true);
+            }
+            $oriImg = $req->logo->store('goods_logo/'.$date);
+            $img = Image::make($oldimage);
+            $img->resize(130,130);        
+            $img->save(public_path('uploads/'.$oriImg));
         }
-        $oriImg = $req->logo->store('goods_logo/'.$date);
-        $img = Image::make($oldimage);
-        $img->resize(130,130);        
-        $img->save(public_path('uploads/'.$oriImg));
-
+        
         $goods = new Goods;
         $goods->goods_name = $req->goods_name;
         $goods->logo = $oriImg;
@@ -63,6 +65,27 @@ class GoodsController extends Controller
         $goods->cat3_id = $req->cat3_id;
         $goods->brand_id = $req->brand_id;
         $goods->save();
+
+        //添加商品属性
+        $id = DB::getPdo()->lastInsertId();
+        if($req->attr_name && $req->attr_value){
+            foreach($req->attr_name as $k=>$v){
+                $req->attr_value[$k];
+                DB::insert('insert into goods_attribute (attr_name,attr_value,goods_id) values (?,?,?)',[$v,$req->attr_value[$k],$id]);
+            }
+        }
+
+         //添加商品SKU
+         $id = DB::getPdo()->lastInsertId();
+         if($req->sku_name && $req->stock && $req->price){
+             foreach($req->sku_name as $k=>$v){
+                 $req->stock[$k];
+                 $req->price[$k];
+                 DB::insert('insert into goods_sku (sku_name,stock,price,goods_id) values (?,?,?,?)',[$v, $req->stock[$k],$req->price[$k],$id]);
+             }
+         }
+
+        
         return redirect()->route('products_list');
     }
     public function delete(Request $req)

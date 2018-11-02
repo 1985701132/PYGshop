@@ -93,6 +93,62 @@
                     @endforeach
                     </select>
             </div>
+            <div class=" clearfix cl">
+                <h4>商品属性 <input class="btn btn-secondary btn-warning" id="btn-attr" type="button" value="添加一个属性"></h4>
+                <div id="attr-container">
+                    <table width="100%">
+                        <tr>
+                            <td class="form-label col-2">属性名称:</td>
+                            <td>
+                                <input type='text' class="input-text" name='attr_name[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">属性值:</td>
+                            <td>
+                                <input type='text' class="input-text" name='attr_value[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class=" clearfix cl">
+                <h4>SKU <input id="btn-sku" class="btn btn-secondary btn-warning" type="button" value="添加一个sku"></h4>
+                <div id="sku-container">
+                    <table width="100%">
+                        <tr>
+                            <td class="form-label col-2">SKU名称:</td>
+                            <td>
+                                <input type='text' class="input-text" name='sku_name[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">库存量:</td>
+                            <td>
+                                <input type='text' class="input-text" name='stock[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">价格:</td>
+                            <td>
+                                ￥<input type='text' size="10" name='price[]'> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         
         
         
@@ -960,6 +1016,85 @@ $("#catid").change(function () {
             })
         }
     });
+
+    var attrStr = `<hr><table width="100%">
+                        <tr>
+                            <td class="form-label col-2">属性名称:</td>
+                            <td>
+                                <input type='text' class="input-text" name='attr_name[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">属性值:</td>
+                            <td>
+                                <input type='text' class="input-text" name='attr_value[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>`
+    
+    $("#btn-attr").click(function(){
+        $("#attr-container").append(attrStr)
+    });
+
+    function del_attr(o)
+    {
+        if(confirm("确定要删除吗？"))
+        {
+            var table = $(o).parent().parent().parent().parent()
+            table.prev('hr').remove()
+            table.remove()
+        }
+        
+    }
+
+    var skuStr = `<hr><table width="100%">
+                        <tr>
+                            <td class="form-label col-2">SKU名称:</td>
+                            <td>
+                                <input type='text' class="input-text" name='sku_name[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">库存量:</td>
+                            <td>
+                                <input type='text' class="input-text" name='stock[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label col-2">价格:</td>
+                            <td>
+                                ￥<input type='text' size="10" name='price[]'> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>`
+
+ $("#btn-sku").click(function(){
+        $("#sku-container").append(skuStr)
+    });
+
+    function del_attr(o)
+    {
+        if(confirm("确定要删除吗？"))
+        {
+            var table = $(o).parent().parent().parent().parent()
+            table.prev('hr').remove()
+            table.remove()
+        }
+        
+    }
+        
 </script>
 </body>
 </html>
