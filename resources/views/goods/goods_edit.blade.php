@@ -57,6 +57,7 @@
         
         <div class=" clearfix cl">
             <label class="form-label col-2">LOGO：</label>
+            <img width="130" height="130" class="img_preview" src="/uploads/{{ $goods->logo }}" alt="">
             <input class="preview" name="logo" id="" type="file">                
         </div>
 			
@@ -121,7 +122,7 @@
                         @endforeach
                     </div>
                 </div>
-    
+                <br><br>
                 <div class=" clearfix cl">
                     <h4>SKU <input id="btn-sku" class="btn btn-secondary btn-warning" type="button" value="添加一个sku"></h4>
                     <div id="sku-container">
@@ -153,6 +154,29 @@
                             </tr>
                         </table>
                         @endforeach
+                    </div>
+                </div>
+                <br><br>
+                <div class="clearfix cl">
+                    <h4>商品图片 <input id="btn-image" class="btn btn-secondary btn-warning" type="button" value="添加一个图片"></h4>
+                    <div id="image-container">
+                        <table width="100%">
+                            <tr>
+                                <td class=""><input type="hidden" id="img_id" name="img_id"></td>
+                                <td>
+                                    @foreach ($image as $v)
+                                    <img width="130" height="130" class="img_preview" src="/uploads/{{ $v->path }}" alt="">
+                                    <input img_id="{{$v->id}}" class="preview" type='file' name='image[]'>
+                                    @endforeach
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=""></td>
+                                <td>
+                                    <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
         
@@ -972,6 +996,19 @@ function getObjectUrl(file) {
 
 // 当选择图片时触发
 $(".preview").change(function(){
+    var old_id = $(this).attr('img_id')
+    var old_val = $("#img_id").val()
+    if(old_val=='')
+    {
+        old_val = old_id
+        $("#img_id").val(old_val)
+    }
+    else
+    {
+        old_val += ','+old_id
+        $("#img_id").val(old_val)
+
+    }
     // 获取选择的图片
     var file = this.files[0];
     // 转成字符串
@@ -1109,6 +1146,40 @@ $("#catid").change(function () {
         }
         
     }
+
+    var imageStr = `<hr><table width="100%">
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="preview" type='file' name='image[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>`
+
+$("#btn-image").click(function(){
+
+// 添加一个图片
+$("#image-container").append(imageStr)
+
+
+// 绑定预览事件
+$(".preview").change(function(){
+    // 获取选择的图片
+    var file = this.files[0];
+    // 转成字符串
+    var str = getObjectUrl(file);
+    // 先删除上一个
+    $(this).prev('.img_preview').remove();
+    // 在框的前面放一个图片
+    $(this).before("<div class='img_preview'><img src='"+str+"' width='120' height='120'></div>");
+});
+});
 </script>
 </body>
 </html>

@@ -25,11 +25,6 @@ class BrandController extends Controller
     {  
         $oldimage = $req->logo->path();  
         $date = date('Ymd');
-        $path = public_path().'/uploads/brand_logo/'.$date;
-        if(!is_dir($path))
-        {
-            mkdir($path,true);
-        }
         $oriImg = $req->logo->store('brand_logo/'.$date);
         $img = Image::make($oldimage);
         $img->resize(120,60);        

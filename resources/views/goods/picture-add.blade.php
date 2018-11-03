@@ -119,7 +119,7 @@
                     </table>
                 </div>
             </div>
-
+            <br><br>
             <div class=" clearfix cl">
                 <h4>SKU <input id="btn-sku" class="btn btn-secondary btn-warning" type="button" value="添加一个sku"></h4>
                 <div id="sku-container">
@@ -140,6 +140,26 @@
                             <td class="form-label col-2">价格:</td>
                             <td>
                                 ￥<input type='text' size="10" name='price[]'> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br><br>
+            <div class="clearfix cl">
+                <h4>商品图片 <input id="btn-image" class="btn btn-secondary btn-warning" type="button" value="添加一个图片"></h4>
+                <div id="image-container">
+                    <table width="100%">
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="preview" type='file' name='image[]'>
                             </td>
                         </tr>
                         <tr>
@@ -1096,6 +1116,41 @@ $("#catid").change(function () {
         }
         
     }
+
+    var imageStr = `<hr><table width="100%">
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="preview" type='file' name='image[]'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=""></td>
+                            <td>
+                                <input class="btn" onclick="del_attr(this)" type="button" value="删除">
+                            </td>
+                        </tr>
+                    </table>`
+
+// 为添加按钮绑定事件
+$("#btn-image").click(function(){
+
+    // 添加一个图片
+    $("#image-container").append(imageStr)
+
+
+    // 绑定预览事件
+    $(".preview").change(function(){
+        // 获取选择的图片
+        var file = this.files[0];
+        // 转成字符串
+        var str = getObjectUrl(file);
+        // 先删除上一个
+        $(this).prev('.img_preview').remove();
+        // 在框的前面放一个图片
+        $(this).before("<div class='img_preview'><img src='"+str+"' width='120' height='120'></div>");
+    });
+});
         
 </script>
 </body>

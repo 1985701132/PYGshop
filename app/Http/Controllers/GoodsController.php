@@ -38,7 +38,6 @@ class GoodsController extends Controller
         $data = Category::select('*')
                 ->where('parent_id',$id)
                 ->get();
-        // dd($data->cat_name);
         echo json_encode($data);
     }
     public function insert(Request $req)
@@ -46,11 +45,6 @@ class GoodsController extends Controller
         if($req->logo){
             $oldimage = $req->logo->path();  
             $date = date('Ymd');
-            $path = public_path().'/uploads/goods_logo/'.$date;
-            if(!is_dir($path))
-            {
-                mkdir($path,true);
-            }
             $oriImg = $req->logo->store('goods_logo/'.$date);
             $img = Image::make($oldimage);
             $img->resize(130,130);        
@@ -85,7 +79,19 @@ class GoodsController extends Controller
              }
          }
 
-        
+         //添加商品图片
+        if($req->image){
+            $image = $req->file('image');
+            foreach($image as $k=>$v){
+                $date = date('Ymd');
+                $oriImg = $v->store('goods_image/'.$date);
+                $oldimage = $v->path();  
+                $img = Image::make($oldimage);
+                $img->resize(350,250);        
+                $img->save(public_path('uploads/'.$oriImg));
+                DB::insert('insert into goods_image (path,goods_id) values (?,?)',[$oriImg,$id]);
+            }
+        }
         return redirect()->route('products_list');
     }
     public function delete(Request $req)
@@ -95,6 +101,14 @@ class GoodsController extends Controller
         ->where('id',$id)
         ->first();
         unlink( public_path().'/uploads/'.$path->logo);
+
+        $imgPath = DB::select('select path from goods_image where goods_id=?',[$id]);
+        foreach($imgPath as $v){
+            unlink( public_path().'/uploads/'.$v->path);
+        }
+        DB::delete('delete from goods_attribute where goods_id=?',[$id]);
+        DB::delete('delete from goods_sku where goods_id=?',[$id]);
+        DB::delete('delete from goods_image where goods_id=?',[$id]);
         DB::delete('delete from goods where id=?',[$id]);
     }
     public function no(Request $req)
@@ -110,9 +124,8 @@ class GoodsController extends Controller
     public function goods_edit(Request $req,$id)
     {
         $attr = DB::select('select attr_name , attr_value from goods_attribute where goods_id = ?',[$id]);
-
         $sku = DB::select('select * from goods_sku where goods_id = ?',[$id]);
-         
+        $image = DB::select('select * from goods_image where goods_id = ?',[$id]);
         $goods = Goods::select('*')
                         ->where('id',$id)
                         ->first();
@@ -127,6 +140,7 @@ class GoodsController extends Controller
             'brand'=>$brand,
             'attr'=>$attr,
             'sku'=>$sku,
+            'image'=>$image,
         ]);
     }
     public function edit(Request $req,$id)
@@ -139,11 +153,6 @@ class GoodsController extends Controller
 
             $oldimage = $req->logo->path();  
             $date = date('Ymd');
-            $path = public_path().'/uploads/goods_logo/'.$date;
-            if(!is_dir($path))
-            {
-                mkdir($path,true);
-            }
             $oriImg = $req->logo->store('goods_logo/'.$date);
             $img = Image::make($oldimage);
             $img->resize(130,130);        
@@ -187,6 +196,28 @@ class GoodsController extends Controller
                  DB::insert('insert into goods_sku (sku_name,stock,price,goods_id) values (?,?,?,?)',[$v, $req->stock[$k],$req->price[$k],$id]);
              }
          }
+
+         if($req->img_id){
+            $img_id = explode(',', $req->img_id);
+            foreach($img_id as $v){
+                $img_path = DB::select('select * from goods_image where id = ?',[$v]);
+                foreach($img_path as $v){
+                    unlink( public_path().'/uploads/'.$v->path);
+                }
+                DB::delete('delete from goods_image where id = ?',[$v->id]);
+            }
+
+            $image = $req->file('image');
+            foreach($image as $k=>$v){
+                $date = date('Ymd');
+                $oriImg = $v->store('goods_image/'.$date);
+                $oldimage = $v->path();  
+                $img = Image::make($oldimage);
+                $img->resize(350,250);        
+                $img->save(public_path('uploads/'.$oriImg));
+                DB::insert('insert into goods_image (path,goods_id) values (?,?)',[$oriImg,$id]);
+            }
+        }
         return redirect()->route('products_list');
     }
 
