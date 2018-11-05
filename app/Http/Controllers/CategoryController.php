@@ -98,9 +98,7 @@ class CategoryController extends Controller
             $path = '-';
         } 
 
-        $category = new Category;
-
-        $category = DB::update('update categories set cat_name = ? where id =?',[$req->cat_name,$id]);
+        DB::update('update categories set cat_name = ? where id =?',[$req->cat_name,$id]);
         return redirect()->route('category');
     }
 }

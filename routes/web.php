@@ -41,6 +41,14 @@ Route::get('/role','RoleController@role')->name('role');
 Route::get('/role_add','RoleController@role_add')->name('role_add');
 Route::post('/role/insert','RoleController@insert')->name('role.insert');
 Route::get('/role/delete','RoleController@delete')->name('role.delete');
+
+//权限模块
+Route::get('/privilege','PrivilegeController@privilege')->name('privilege');
+Route::get('/privilege_add','PrivilegeController@privilege_add')->name('privilege_add');
+Route::post('/privilege/insert','PrivilegeController@insert')->name('privilege.insert');
+Route::get('/privilege_edit/{id}','PrivilegeController@privilege_edit')->name('privilege_edit');
+Route::post('/privilege/edit/{id}','PrivilegeController@edit')->name('privilege.edit');
+Route::get('/privilege/delete','PrivilegeController@delete')->name('privilege.delete');
 //后台登陆
 Route::get('/htlogin','HtLoginController@login')->name('htlogin');
 Route::post('/htlogin','HtLoginController@dologin')->name('htdologin');
